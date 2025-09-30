@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
+
+import { MapService } from '../../map-service';
 
 @Component({
   selector: 'app-map',
@@ -10,14 +12,11 @@ import maplibregl from 'maplibre-gl';
 })
 export class Map {
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef<HTMLDivElement>;
+  mapService: MapService = inject(MapService);
 
   ngAfterViewInit() {
-    const map = new maplibregl.Map({
-      container: this.mapContainer.nativeElement,
-      style: 'http://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json',
-      center: [-70.6483, -33.4569],
-      zoom: 20,
-    });
+    // Map centered on Santiago, Chile:
+    const map = this.mapService.startMap(this.mapContainer, [-70.6483, -33.4569], 6);
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
   }
