@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+:root {
+    --background-gray: #19191a;
+    --text-color: #f3f4f6;
+}
