@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 
 import { Button } from "../button/button";
+import { MapService } from '../core/services/map-service';
 
 @Component({
   selector: 'app-modal',
@@ -9,6 +10,7 @@ import { Button } from "../button/button";
 })
 export class Modal {
   @Output() close = new EventEmitter<void>();
+  mapService = inject(MapService);
 
   onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -20,7 +22,7 @@ export class Modal {
       reader.onload = (e) => {
         const target = e.target?.result as string;
         const geoJson = JSON.parse(target).features;
-        console.log(geoJson);
+        this.mapService.addDifferentPoints(geoJson);
       };
 
       reader.readAsText(file);

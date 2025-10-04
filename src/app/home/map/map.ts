@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 
-import { MapService } from '../../services/map-service';
+import { MapService } from '../../core/services/map-service';
 
 const geojsonData: GeoJSON.FeatureCollection = {
   type: 'FeatureCollection',

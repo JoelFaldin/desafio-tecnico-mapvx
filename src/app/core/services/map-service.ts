@@ -1,5 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
+import { GeoJsonInterface } from '../interfaces/geojson.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,9 @@ export class MapService {
         }
       });
     }
+  }
+
+  async addDifferentPoints(geojson: GeoJsonInterface[]) {
+    console.log(geojson)
   }
 }
