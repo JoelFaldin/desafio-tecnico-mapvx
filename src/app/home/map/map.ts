@@ -2,7 +2,24 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 
-import { MapService } from '../../map-service';
+import { MapService } from '../../services/map-service';
+
+const geojsonData: GeoJSON.FeatureCollection = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-70.65387, -33.443018]
+      },
+      properties: {
+        name: 'Palacio de La Moneda',
+        category: 'landmark'
+      }
+    }
+  ]
+};
 
 @Component({
   selector: 'app-map',
@@ -16,8 +33,12 @@ export class Map {
 
   ngAfterViewInit() {
     // Map centered on Santiago, Chile:
-    const map = this.mapService.startMap(this.mapContainer, [-70.6483, -33.4569], 6);
+    const map = this.mapService.startMap(this.mapContainer, [-70.6506, -33.4429], 10);
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
+  }
+
+  addPoint() {
+    this.mapService.addPoint('red-points', geojsonData);
   }
 }

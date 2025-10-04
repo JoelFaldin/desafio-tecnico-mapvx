@@ -26,4 +26,25 @@ export class MapService {
   setZoom(zoom: number) {
     this.map.setZoom(zoom);
   }
+
+  async addPoint(id: string, geojson: GeoJSON.FeatureCollection) {
+    if (!this.map) return;
+
+    if (!this.map.getSource(id)) {
+      this.map.addSource(id, {
+        type: 'geojson',
+        data: geojson
+      });
+
+      this.map.addLayer({
+        id: `${id}-layer`,
+        type: 'circle',
+        source: id,
+        paint: {
+          'circle-radius': 8,
+          'circle-color': '#FF0000'
+        }
+      });
+    }
+  }
 }
