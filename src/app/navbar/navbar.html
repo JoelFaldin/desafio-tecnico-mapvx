@@ -5,7 +5,8 @@
         class="h-12 m-2 inline-block align-middle"
     >
 
-    <nav>
+    <nav class="flex flex-row gap-6 text-lg font-medium">
         <a routerLink="/" class="text-[var(--text-color)]">Inicio</a>
+        <a class="text-[var(--text-color)] cursor-pointer" (click)="openModal()">Opciones</a>
     </nav>
 </header>

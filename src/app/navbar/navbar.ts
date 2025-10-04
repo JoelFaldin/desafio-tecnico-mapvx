@@ -1,5 +1,7 @@
 import { RouterLink } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+
+import { ModalService } from '../services/modal-service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +9,9 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.html',
 })
 export class Navbar {
+  modalService: ModalService = inject(ModalService);
 
+  openModal() {
+    this.modalService.open();
+  }
 }
