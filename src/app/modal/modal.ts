@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
+import { Button } from "../button/button";
+
 @Component({
   selector: 'app-modal',
-  imports: [],
+  imports: [Button],
   templateUrl: './modal.html',
 })
 export class Modal {
