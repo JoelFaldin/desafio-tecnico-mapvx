@@ -1,6 +1,8 @@
-import { Component, computed, Input, OnInit } from '@angular/core';
+import { Component, computed, inject, Input, OnInit, TemplateRef } from '@angular/core';
+
 import { Button } from "../shared/button/button";
 import { ButtonSecondary } from "../shared/button-secondary/button-secondary";
+import { ModalService } from '../core/services/modal-service';
 
 @Component({
   selector: 'app-popup',
@@ -9,6 +11,7 @@ import { ButtonSecondary } from "../shared/button-secondary/button-secondary";
 })
 export class Popup implements OnInit {
   @Input() features: any;
+  private modalService = inject(ModalService);
   onClose!: () => void;
 
   name = computed(() => this.features?.properties?.['name'] ?? null);
@@ -24,7 +27,9 @@ export class Popup implements OnInit {
     }
   }
 
-  edit() {
-    console.log('editing')
+  edit(content: TemplateRef<any>) {
+    this.modalService.open(content);
   }
+
+  closeEditModal = () => this.modalService.close();
 }

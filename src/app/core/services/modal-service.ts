@@ -13,6 +13,10 @@ export class ModalService {
   constructor(private overlay: Overlay, private injector: Injector) { }
 
   open(templateRef: TemplateRef<any>) {
+    if (this.overlayRef) {
+      this.close();
+    }
+
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'dark-backdrop',      
@@ -28,6 +32,7 @@ export class ModalService {
     const modalRef = this.overlayRef.attach(modalPortal);
 
     modalRef.instance.content = templateRef;
+    // modalRef.instance.close.subscribe(() => this.close());
     this.overlayRef.backdropClick().subscribe(() => this.close());
   }
 

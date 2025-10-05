@@ -43,7 +43,6 @@ export class Map {
           popup.remove();
           containerRef.destroy();
         }
-
       }
     })
 
