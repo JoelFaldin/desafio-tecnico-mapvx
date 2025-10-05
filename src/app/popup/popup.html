@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-2">
+    @if (name()) {
+        <strong>{{ name() }}</strong>
+    } @else {
+        <strong>Unknown</strong>
+    }
+    @if (category()) {
+        <p>Category: {{ category() }}</p>
+    } @else {
+        <p>No category</p>
+    }
+    
+    <app-button (click)="closePopup()" label="Close"></app-button>
+</div>

@@ -1,22 +1,9 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, ViewContainerRef } from '@angular/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 
 import { MapService } from '../../core/services/map-service';
-
-const geojsonData: GeoJSON.Feature[] = [
-  {
-    type: "Feature",
-    geometry: {
-      type: "Point",
-      coordinates: [-70.65387, -33.443018]
-    },
-    properties: {
-      name: "Palacio de La Moneda",
-      category: "landmark"
-    }
-  }
-];
+import { Popup } from '../../popup/popup';
 
 @Component({
   selector: 'app-map',
@@ -27,6 +14,7 @@ const geojsonData: GeoJSON.Feature[] = [
 export class Map {
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef<HTMLDivElement>;
   mapService: MapService = inject(MapService);
+  private viewContainerRef = inject(ViewContainerRef);
 
   ngAfterViewInit() {
     // Map centered on Santiago, Chile:
@@ -40,12 +28,15 @@ export class Map {
       if (features.geometry.type === 'Point') {
         const coords = (features.geometry as GeoJSON.Point).coordinates as [number, number];
 
-        new maplibregl.Popup()
+        const container = document.createElement('div');
+        const containerRef = this.viewContainerRef.createComponent(Popup);
+        
+        container.appendChild(containerRef.location.nativeElement);
+        containerRef.setInput('features', features);
+
+        new maplibregl.Popup({ closeButton: false })
           .setLngLat(coords)
-          .setHTML(`
-            <strong>${features.properties?.['name']}</strong>
-            <p>Category: ${features.properties?.['category']}</p>
-          `)
+          .setDOMContent(container)
           .addTo(map);
       }
     })
