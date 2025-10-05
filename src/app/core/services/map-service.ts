@@ -28,28 +28,35 @@ export class MapService {
     this.map.setZoom(zoom);
   }
 
-  async addPoint(id: string, geojson: GeoJSON.FeatureCollection) {
+  async updatePoints(features: GeoJSON.Feature[] | GeoJSON.Feature) {
     if (!this.map) return;
 
-    if (!this.map.getSource(id)) {
-      this.map.addSource(id, {
+    const featureArray = Array.isArray(features) ? features : [features];
+
+    const featureCollection: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: featureArray
+    }
+
+    const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
+
+    if (source) {
+      source.setData(featureCollection);
+    } else {
+      this.map.addSource('points', {
         type: 'geojson',
-        data: geojson
+        data: featureCollection
       });
 
       this.map.addLayer({
-        id: `${id}-layer`,
+        id: 'points-layer',
         type: 'circle',
-        source: id,
+        source: 'points',
         paint: {
-          'circle-radius': 8,
-          'circle-color': '#FF0000'
+          'circle-radius': 6,
+          'circle-color': '#B42222'
         }
       });
     }
-  }
-
-  async addDifferentPoints(geojson: GeoJsonInterface[]) {
-    console.log(geojson)
   }
 }

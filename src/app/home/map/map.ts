@@ -4,22 +4,19 @@ import maplibregl from 'maplibre-gl';
 
 import { MapService } from '../../core/services/map-service';
 
-const geojsonData: GeoJSON.FeatureCollection = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-70.65387, -33.443018]
-      },
-      properties: {
-        name: 'Palacio de La Moneda',
-        category: 'landmark'
-      }
+const geojsonData: GeoJSON.Feature[] = [
+  {
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [-70.65387, -33.443018]
+    },
+    properties: {
+      name: "Palacio de La Moneda",
+      category: "landmark"
     }
-  ]
-};
+  }
+];
 
 @Component({
   selector: 'app-map',
@@ -38,7 +35,7 @@ export class Map {
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
   }
 
-  addPoint() {
-    this.mapService.addPoint('red-points', geojsonData);
-  }
+  // addPoint() {
+  //   this.mapService.updatePoints(geojsonData);
+  // }
 }

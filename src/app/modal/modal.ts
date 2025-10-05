@@ -22,7 +22,7 @@ export class Modal {
       reader.onload = (e) => {
         const target = e.target?.result as string;
         const geoJson = JSON.parse(target).features;
-        this.mapService.addDifferentPoints(geoJson);
+        this.mapService.updatePoints(geoJson);
       };
 
       reader.readAsText(file);
