@@ -5,10 +5,11 @@ import { Button } from "../shared/button/button";
 import { ButtonSecondary } from "../shared/button-secondary/button-secondary";
 import { ModalService } from '../core/services/modal-service';
 import { MapService } from '../core/services/map-service';
+import { ButtonWarning } from "../shared/button-warning/button-warning";
 
 @Component({
   selector: 'app-popup',
-  imports: [Button, ButtonSecondary, ReactiveFormsModule],
+  imports: [Button, ButtonSecondary, ReactiveFormsModule, ButtonWarning],
   templateUrl: './popup.html',
 })
 export class Popup {
@@ -61,5 +62,15 @@ export class Popup {
     this.mapService.editPoint(newProperties);
     this.closeEditModal();
     this.closePopup();
+  }
+
+  deletePoint() {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este punto?")) {
+      this.mapService.deletePoint(this.features.properties.id);
+      this.closeEditModal();
+      this.closePopup();
+    } else {
+      return;
+    }
   }
 }

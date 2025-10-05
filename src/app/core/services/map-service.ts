@@ -11,6 +11,10 @@ export class MapService {
   private styleUrl: string = 'http://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json';
   private points: GeoJSON.Feature[] = [];
 
+  constructor() {
+    this.loadPointsFromLocalStorage();
+  }
+
   startMap(mapContainer: ElementRef<HTMLDivElement>, center: [number, number] = [0, 0], zoom: number = 2): maplibregl.Map {
     this.map = new maplibregl.Map({
       container: mapContainer.nativeElement,
@@ -19,7 +23,47 @@ export class MapService {
       zoom: zoom,
     });
 
+    this.map.on('load', () => {
+      this.initializePointsLayer();
+    })
+
     return this.map;
+  }
+
+  private loadPointsFromLocalStorage() {
+    const items = localStorage.getItem('points');
+    if (items) {
+      try {
+        this.points = JSON.parse(items);
+      } catch (error) {
+        console.error("Error parsing points from localStorage:", error);
+        this.points = [];
+      }
+    }
+  }
+
+  private initializePointsLayer() {
+    if (!this.map) return;
+
+    if (this.points.length > 0) {
+      this.map.addSource('points', {
+        type: 'geojson',
+        data: {
+          type: "FeatureCollection",
+          features: this.points
+        }
+      });
+
+      this.map.addLayer({
+        id: 'points-layer',
+        type: 'circle',
+        source: 'points',
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#B42222'
+        }
+      });
+    }
   }
 
   setCenter(center: [number, number]) {
@@ -46,6 +90,8 @@ export class MapService {
     })
 
     this.points.push(...fixedFeatures);
+    localStorage.setItem('points', JSON.stringify(this.points));
+
     const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
 
     if (source) {
@@ -90,6 +136,7 @@ export class MapService {
     }
 
     this.points.push(newPoint);
+    localStorage.setItem('points', JSON.stringify(this.points));
 
     const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
 
@@ -118,6 +165,7 @@ export class MapService {
 
   editPoint(properties: PropertiesInterface) {
     const point = this.points.find(p => p.properties?.['id'] === properties?.id);
+
     if (point) {
       point.properties = {
         ...point.properties,
@@ -131,9 +179,32 @@ export class MapService {
           type: "FeatureCollection",
           features: this.points
         });
+
+        localStorage.setItem('points', JSON.stringify(this.points));
       }
     } else {
       console.warn(`Point with id ${properties?.id} not found.`);
+    }
+  }
+
+  deletePoint(id: string) {
+    const point = this.points.find(p => p.properties?.['id'] === id);
+
+    if (point) {
+      this.points = this.points.filter(p => p.properties?.['id'] !== id);
+
+      const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
+
+      if (source) {
+        source.setData({
+          type: "FeatureCollection",
+          features: this.points
+        });
+
+        localStorage.setItem('points', JSON.stringify(this.points));
+      }
+    } else {
+      console.warn(`Point with id ${id} not found.`);
     }
   }
 }
