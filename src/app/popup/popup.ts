@@ -1,25 +1,38 @@
-import { Component, computed, inject, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, computed, inject, Input, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Button } from "../shared/button/button";
 import { ButtonSecondary } from "../shared/button-secondary/button-secondary";
 import { ModalService } from '../core/services/modal-service';
+import { MapService } from '../core/services/map-service';
 
 @Component({
   selector: 'app-popup',
-  imports: [Button, ButtonSecondary],
+  imports: [Button, ButtonSecondary, ReactiveFormsModule],
   templateUrl: './popup.html',
 })
-export class Popup implements OnInit {
-  @Input() features: any;
+export class Popup {
   private modalService = inject(ModalService);
-  onClose!: () => void;
+  private mapService = inject(MapService);
+
+  @Input() features: any;
 
   name = computed(() => this.features?.properties?.['name'] ?? null);
   category = computed(() => this.features?.properties?.['category'] ?? null);
 
-  ngOnInit() {
-    console.log(this.features);
+  form = new FormGroup({
+    name: new FormControl(''),
+    category: new FormControl(''),
+  })
+
+  ngAfterViewInit() {
+    this.form.setValue({
+      name: this.name() ?? '',
+      category: this.category() ?? '',
+    })
   }
+
+  onClose!: () => void;
 
   closePopup() {
     if (this.onClose) {
@@ -32,4 +45,21 @@ export class Popup implements OnInit {
   }
 
   closeEditModal = () => this.modalService.close();
+
+  saveChanges() {
+    if (this.form.value.name == this.features.properties.name && this.form.value.category == this.features.properties.category) {
+      console.warn("No changes made");
+      return;
+    }
+
+    const newProperties = {
+      ...this.features.properties,
+      name: this.form.value.name,
+      category: this.form.value.category,
+    }
+
+    this.mapService.editPoint(newProperties);
+    this.closeEditModal();
+    this.closePopup();
+  }
 }

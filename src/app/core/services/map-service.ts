@@ -1,6 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
 
+import { PropertiesInterface } from '../interfaces/geojson.interface';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +35,17 @@ export class MapService {
     if (!this.map) return;
 
     const featureArray = Array.isArray(features) ? features : [features];
+    const fixedFeatures = featureArray.map((feature, index) => {
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          id: feature.id ?? `points-${this.points.length + index + 1}`,
+        }
+      }
+    })
 
-    this.points.push(...featureArray);
+    this.points.push(...fixedFeatures);
     const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
 
     if (source) {
@@ -73,7 +84,9 @@ export class MapService {
         type: "Point",
         coordinates: [lng, lat],
       },
-      properties: {}
+      properties: {
+        id: `points-${this.points.length + 1}`,
+      }
     }
 
     this.points.push(newPoint);
@@ -100,6 +113,27 @@ export class MapService {
           'circle-color': '#B42222'
         }
       });
+    }
+  }
+
+  editPoint(properties: PropertiesInterface) {
+    const point = this.points.find(p => p.properties?.['id'] === properties?.id);
+    if (point) {
+      point.properties = {
+        ...point.properties,
+        ...properties
+      };
+
+      const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
+
+      if (source) {
+        source.setData({
+          type: "FeatureCollection",
+          features: this.points
+        });
+      }
+    } else {
+      console.warn(`Point with id ${properties?.id} not found.`);
     }
   }
 }

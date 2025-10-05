@@ -12,7 +12,8 @@ interface GeometryInterface {
 
 type CoordinatesType = [number, number];
 
-interface PropertiesInterface {
+export interface PropertiesInterface {
     name: string,
     category: string,
+    id?: string,
 }
