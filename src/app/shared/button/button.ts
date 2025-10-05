@@ -7,6 +7,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class Button {
   label = input('label');
+  customClass? = input('customClass');
   click = output<void>();
 
   handleClick() {

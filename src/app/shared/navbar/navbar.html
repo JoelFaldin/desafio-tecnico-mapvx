@@ -15,9 +15,9 @@
     <h2 class="text-xl font-bold">Opciones</h2>
     <hr />
     
-    <section class="p-2">
+    <section class="p-4 flex flex-col gap-3">
         <span class="flex flex-col gap-2 my-2">
-            <h3 class="font-bold">Procesar GeoJSON</h3>
+            <h3 class="font-bold text-lg">Procesar GeoJSON</h3>
     
             <label for="geojsonFile" class="border border-dashed border-gray-300 p-2 rounded">
                 Subir archivo
@@ -28,6 +28,11 @@
                 (change)="onFileSelected($event)"
                 accept=".geojson,application/geo+json"
             />
+        </span>
+        <span class="flex flex-col gap-2 my-2">
+            <h4 class="font-bold text-lg">Exportar resultados</h4>
+
+            <app-button (click)="exportResults()" label="Exportar" customClass="w-full"></app-button>
         </span>
     
     </section>

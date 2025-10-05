@@ -207,4 +207,18 @@ export class MapService {
       console.warn(`Point with id ${id} not found.`);
     }
   }
+
+  exportPoints() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+      type: "FeatureCollection",
+      features: this.points
+    }));
+
+    const downloadButton = document.createElement('a');
+    downloadButton.href = dataStr;
+    downloadButton.download = "points.geojson";
+
+    downloadButton.click();
+    downloadButton.remove();
+  }
 }

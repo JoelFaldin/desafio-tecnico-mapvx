@@ -38,4 +38,8 @@ export class Navbar {
       this.close();
     }
   }
+
+  exportResults() {
+    this.mapService.exportPoints();
+  }
 }
