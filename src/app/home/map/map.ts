@@ -33,9 +33,13 @@ export class Map {
     const map = this.mapService.startMap(this.mapContainer, [-70.6506, -33.4429], 10);
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    map.on('click', (e) => {
+      this.mapService.addPoint(e.lngLat.lng, e.lngLat.lat);
+    })
+
+    // map.on('')
   }
 
-  // addPoint() {
-  //   this.mapService.updatePoints(geojsonData);
-  // }
+
 }
