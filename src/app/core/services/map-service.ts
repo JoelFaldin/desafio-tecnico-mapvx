@@ -56,7 +56,7 @@ export class MapService {
         type: 'circle',
         source: 'points',
         paint: {
-          'circle-radius': 6,
+          'circle-radius': 10,
           'circle-color': '#B42222'
         }
       });
@@ -96,7 +96,7 @@ export class MapService {
         type: 'circle',
         source: 'points',
         paint: {
-          'circle-radius': 6,
+          'circle-radius': 10,
           'circle-color': '#B42222'
         }
       });

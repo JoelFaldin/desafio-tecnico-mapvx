@@ -34,12 +34,27 @@ export class Map {
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
-    map.on('click', (e) => {
-      this.mapService.addPoint(e.lngLat.lng, e.lngLat.lat);
+    map.on('click', 'points-layer', (e) => {
+      console.log('point clicked')
     })
 
-    // map.on('')
+    map.on('click', (e) => {
+      const layers = map.getStyle().layers;
+
+      if (layers[1]?.id === 'points-layer') {
+        const clickBox: [[number, number], [number, number]] = [
+          [e.point.x - 2, e.point.y - 2],
+          [e.point.x + 2, e.point.y + 2]
+        ];
+
+        const features = map.queryRenderedFeatures(clickBox, { layers: ['points-layer'] });
+  
+        if (features.length > 0) {
+          return;
+        }
+      }
+
+      this.mapService.addPoint(e.lngLat.lng, e.lngLat.lat);
+    })
   }
-
-
 }
