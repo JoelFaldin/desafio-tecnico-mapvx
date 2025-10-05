@@ -7,6 +7,30 @@
 
     <nav class="flex flex-row gap-6 text-lg font-medium">
         <a routerLink="/" class="text-[var(--text-color)]">Inicio</a>
-        <a class="text-[var(--text-color)] cursor-pointer" (click)="openModal()">Opciones</a>
+        <a class="text-[var(--text-color)] cursor-pointer" (click)="openModal(modalContent)">Opciones</a>
     </nav>
 </header>
+
+<ng-template #modalContent>
+    <h2 class="text-xl font-bold">Opciones</h2>
+    <hr />
+    
+    <section class="p-2">
+        <span class="flex flex-col gap-2 my-2">
+            <h3 class="font-bold">Procesar GeoJSON</h3>
+    
+            <label for="geojsonFile" class="border border-dashed border-gray-300 p-2 rounded">
+                Subir archivo
+            </label>
+            <input
+                id="geojsonFile"
+                type="file"
+                (change)="onFileSelected($event)"
+                accept=".geojson,application/geo+json"
+            />
+        </span>
+    
+    </section>
+    
+    <app-button (click)="close()" label="Cerrar"></app-button>
+</ng-template>

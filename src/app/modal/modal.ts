@@ -1,33 +1,11 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-
-import { Button } from "../shared/button/button";
-import { MapService } from '../core/services/map-service';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, inject, Input, Output, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
-  imports: [Button],
+  imports: [NgTemplateOutlet],
   templateUrl: './modal.html',
 })
 export class Modal {
-  @Output() close = new EventEmitter<void>();
-  mapService = inject(MapService);
-
-  onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        const target = e.target?.result as string;
-        const geoJson = JSON.parse(target).features;
-        this.mapService.updatePoints(geoJson);
-      };
-
-      reader.readAsText(file);
-
-      this.close.emit();
-    }
-  }
+  @Input() content!: TemplateRef<any>;
 }

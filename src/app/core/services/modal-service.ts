@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, TemplateRef } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -12,7 +12,7 @@ export class ModalService {
 
   constructor(private overlay: Overlay, private injector: Injector) { }
 
-  open() {
+  open(templateRef: TemplateRef<any>) {
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'dark-backdrop',      
@@ -27,7 +27,7 @@ export class ModalService {
 
     const modalRef = this.overlayRef.attach(modalPortal);
 
-    modalRef.instance.close.subscribe(() => this.close());
+    modalRef.instance.content = templateRef;
     this.overlayRef.backdropClick().subscribe(() => this.close());
   }
 
