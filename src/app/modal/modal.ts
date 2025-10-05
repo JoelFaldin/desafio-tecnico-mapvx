@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 
-import { Button } from "../button/button";
+import { Button } from "../shared/button/button";
 import { MapService } from '../core/services/map-service';
 
 @Component({

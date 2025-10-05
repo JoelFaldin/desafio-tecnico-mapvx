@@ -2,13 +2,16 @@
     @if (name()) {
         <strong>{{ name() }}</strong>
     } @else {
-        <strong>Unknown</strong>
+        <strong>Desconocido</strong>
     }
     @if (category()) {
-        <p>Category: {{ category() }}</p>
+        <p>Categoría: {{ category() }}</p>
     } @else {
-        <p>No category</p>
+        <p>Sin categoría</p>
     }
     
-    <app-button (click)="closePopup()" label="Close"></app-button>
+    <span class="flex flex-row gap-2">
+        <app-button (click)="closePopup()" label="Cerrar"></app-button>
+        <app-button-secondary (click)="edit()" label="Editar"></app-button-secondary>
+    </span>
 </div>

@@ -34,10 +34,16 @@ export class Map {
         container.appendChild(containerRef.location.nativeElement);
         containerRef.setInput('features', features);
 
-        new maplibregl.Popup({ closeButton: false })
+        const popup = new maplibregl.Popup({ closeButton: false })
           .setLngLat(coords)
           .setDOMContent(container)
           .addTo(map);
+
+        containerRef.instance.onClose = () => {
+          popup.remove();
+          containerRef.destroy();
+        }
+
       }
     })
 

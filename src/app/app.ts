@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 
-import { Navbar } from "./navbar/navbar";
+import { Navbar } from "./shared/navbar/navbar";
 
 @Component({
   selector: 'app-root',
