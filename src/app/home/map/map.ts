@@ -35,7 +35,19 @@ export class Map {
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     map.on('click', 'points-layer', (e) => {
-      console.log('point clicked')
+      const features = e.features?.[0];
+
+      if (features.geometry.type === 'Point') {
+        const coords = (features.geometry as GeoJSON.Point).coordinates as [number, number];
+
+        new maplibregl.Popup()
+          .setLngLat(coords)
+          .setHTML(`
+            <strong>${features.properties?.['name']}</strong>
+            <p>Category: ${features.properties?.['category']}</p>
+          `)
+          .addTo(map);
+      }
     })
 
     map.on('click', (e) => {
