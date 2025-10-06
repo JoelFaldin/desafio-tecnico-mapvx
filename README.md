@@ -4,14 +4,14 @@ Proyecto simple para el desafío técnico de MapVX para la posición de **desarr
 
 La aplicación consiste en el manejo de mapas: creación, edición y eliminación de puntos.
 
-Construida con ![Angular](https://angular.dev/), ![Tailwind](https://tailwindcss.com/), ![MapLibre](https://maplibre.org/), ![npm](https://www.npmjs.com/) y ![Tabler icons](https://tabler.io/icons).
+Construida con [Angular](https://angular.dev/), [Tailwind](https://tailwindcss.com/), [MapLibre](https://maplibre.org/), [npm](https://www.npmjs.com/) y [Tabler icons](https://tabler.io/icons).
 
 ## Iniciar la aplicación
 
 Para levantar el proyecto, aségurate de:
 
-* Tener una versión de ![Node](https://nodejs.org/en) válida (en mi caso, `v24.9.0`).
-* Contar con el ![cli de Angular](https://angular.dev/tools/cli) (instalar con `npm install -g @angular/cli`).
+* Tener una versión de [Node](https://nodejs.org/en) válida (en mi caso, `v24.9.0`).
+* Contar con el [cli de Angular](https://angular.dev/tools/cli) (instalar con `npm install -g @angular/cli`).
 
 Clona el proyecto:
 
@@ -63,8 +63,8 @@ src/app/
     ```
 
     * utils/: Funciones de utilidad, en este caso, validación usando zod.
-* icons/: Diferentes componentes de Angular simples, obtenidos de ![Tabler icons](https://tabler.io/icons).
-* shared/: Componentes reutilizados en toda la aplicación. Permiten el paso de información por medio de props o ![_content projection_](https://angular.dev/guide/components/content-projection)
+* icons/: Diferentes componentes de Angular simples, obtenidos de [Tabler icons](https://tabler.io/icons).
+* shared/: Componentes reutilizados en toda la aplicación. Permiten el paso de información por medio de props o [_content projection_](https://angular.dev/guide/components/content-projection)
 
 ### Posibles problemas
 
