@@ -2,6 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
 
 import { PropertiesInterface } from '../interfaces/geojson.interface';
+import { validateGeoJSON } from '../utils/geojson.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -77,16 +78,19 @@ export class MapService {
   // Add multiple points to map and update source:
   async updatePoints(features: GeoJSON.Feature[] | GeoJSON.Feature) {
     if (!this.map) return;
-
+    
     const featureArray = Array.isArray(features) ? features : [features];
-    const fixedFeatures = featureArray.map((feature, index) => {
+    const result = validateGeoJSON(featureArray)
+
+    const fixedFeatures = result.valid.map((feature, index) => {
       return {
         ...feature,
+        type: feature.type,
         properties: {
           ...feature.properties,
           id: feature.id ?? `points-${this.points.length + index + 1}`,
         }
-      }
+      } as GeoJSON.Feature
     })
 
     this.points.push(...fixedFeatures);
