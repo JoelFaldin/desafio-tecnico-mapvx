@@ -32,7 +32,6 @@ export class ModalService {
     const modalRef = this.overlayRef.attach(modalPortal);
 
     modalRef.instance.content = templateRef;
-    // modalRef.instance.close.subscribe(() => this.close());
     this.overlayRef.backdropClick().subscribe(() => this.close());
   }
 

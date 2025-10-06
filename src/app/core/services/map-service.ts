@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, inject, Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
 
 import { PropertiesInterface } from '../interfaces/geojson.interface';
@@ -77,10 +77,10 @@ export class MapService {
 
   // Add multiple points to map and update source:
   async updatePoints(features: GeoJSON.Feature[] | GeoJSON.Feature) {
-    if (!this.map) return;
+    if (!this.map) return null;
     
     const featureArray = Array.isArray(features) ? features : [features];
-    const result = validateGeoJSON(featureArray)
+    const result = validateGeoJSON(featureArray);
 
     const fixedFeatures = result.valid.map((feature, index) => {
       return {
@@ -122,6 +122,8 @@ export class MapService {
         }
       });
     }
+
+    return result;
   }
 
   // Add single point to map and update source:
@@ -224,5 +226,9 @@ export class MapService {
 
     downloadButton.click();
     downloadButton.remove();
+  }
+
+  getPoints() {
+    return this.points;
   }
 }
