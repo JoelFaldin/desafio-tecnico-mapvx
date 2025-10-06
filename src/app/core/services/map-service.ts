@@ -240,4 +240,19 @@ export class MapService {
   getPoints() {
     return this.points;
   }
+
+  removeAllPoints() {
+    this.points = [];
+
+    const source = this.map.getSource('points') as maplibregl.GeoJSONSource;
+
+    if (source) {
+      source.setData({
+        type: "FeatureCollection",
+        features: this.points
+      });
+    }
+
+    localStorage.removeItem("points");
+  }
 }

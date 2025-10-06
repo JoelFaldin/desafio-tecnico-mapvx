@@ -59,4 +59,10 @@ export class Navbar {
   exportResults() {
     this.mapService.exportPoints();
   }
+
+  deleteAllPoints() {
+    if (window.confirm("¿Estás seguro de que quieres eliminar todos los puntos? La aplicación volverá a su estado inicial.")) {
+      this.mapService.removeAllPoints();
+    }
+  }
 }
