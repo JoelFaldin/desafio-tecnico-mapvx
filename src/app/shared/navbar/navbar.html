@@ -5,9 +5,12 @@
         class="h-12 m-2 inline-block align-middle"
     >
 
-    <nav class="flex flex-row gap-6 text-lg font-medium">
+    <nav class="flex flex-row items-center gap-6 text-lg font-medium">
         <a routerLink="/" class="text-[var(--text-color)]">Inicio</a>
-        <a class="text-[var(--text-color)] cursor-pointer" (click)="openModal(modalContent)">Opciones</a>
+        <a class="text-[var(--text-color)] cursor-pointer border border-white p-2 rounded-md flex flex-row gap-2 items-center" (click)="openModal(modalContent)">
+            <app-settings-icon></app-settings-icon>
+            Opciones
+        </a>
     </nav>
 </header>
 
@@ -17,7 +20,10 @@
     
     <section class="p-4 flex flex-col gap-3">
         <span class="flex flex-col gap-2 my-2">
-            <h3 class="font-bold text-lg">Procesar GeoJSON</h3>
+            <h3 class="font-bold text-lg flex flex-row gap-2 items-center">
+                <app-file-icon></app-file-icon>
+                Procesar GeoJSON
+            </h3>
     
             <label for="geojsonFile" class="border border-dashed border-gray-300 p-2 rounded">
                 Subir archivo
@@ -30,7 +36,10 @@
             />
         </span>
         <span class="flex flex-col gap-2 my-2">
-            <h4 class="font-bold text-lg">Exportar resultados</h4>
+            <h4 class="font-bold text-lg flex flex-row gap-2 items-center">
+                <app-download-icon></app-download-icon>
+                Exportar resultados
+            </h4>
 
             <app-button (click)="exportResults()" label="Exportar" customClass="w-full"></app-button>
         </span>
@@ -42,7 +51,10 @@
 
 <ng-template #notificationContent>
     <section class="flex flex-col gap-4">
-        <h4 class="font-bold text-lg text-black">GeoJSON procesado!</h4>
+        <h4 class="font-bold text-lg text-black flex flex-row gap-2 items-center">
+            <app-check-icon></app-check-icon>
+            GeoJSON procesado!
+        </h4>
     
         <app-button (click)="openModal(detailsContent)" label="Ver detalles"></app-button>
     </section>
@@ -56,13 +68,19 @@
         </span>
         
         <span>
-            <p class="text-black text-md font-bold">Resumen</p>
+            <span class="text-black text-md font-bold flex flex-row gap-2 items-center my-2">
+                <app-info-icon></app-info-icon>
+                Resumen
+            </span>
             <p class="text-black text-sm">Elementos válidos: {{ valid() }}</p>
             <p class="text-black text-sm">Elementos inválidos: {{ invalid() }}</p>
         </span>
 
         <span>
-            <p class="text-md font-bold">Puntos existentes:</p>
+            <span class="text-md font-bold flex flex-row gap-2 items-center">
+                <app-pin-icon></app-pin-icon>
+                Puntos existentes:
+            </span>
             <div class="max-h-48 overflow-y-auto pr-2">
                 @for (point of points; track $index) {
                     <div class="my-2">

@@ -2,7 +2,7 @@ import { Injectable, Injector, TemplateRef } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-import { Modal } from '../../modal/modal';
+import { Modal } from '../../shared/modal/modal';
 
 @Injectable({
   providedIn: 'root'
