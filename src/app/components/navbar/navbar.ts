@@ -4,7 +4,7 @@ import { Component, inject, signal, TemplateRef, WritableSignal } from '@angular
 import { MapService, ModalService, NotificationService } from '../../core/services';
 import { InvalidDataInterface } from '../../core/interfaces/data.interface';
 import { CheckIcon, DownloadIcon, FileIcon, InfoIcon, PinIcon, SettingsIcon } from '../../icons';
-import { Button, DetailsCell } from '..';
+import { Button, DetailsCell } from '../../shared';
 
 @Component({
   selector: 'app-navbar',
