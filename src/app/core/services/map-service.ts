@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 
 import { PropertiesInterface } from '../interfaces/geojson.interface';
 import { validateGeoJSON } from '../utils/geojson.validator';
+import { UpdatePointsResult } from '../interfaces/data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +77,7 @@ export class MapService {
   }
 
   // Add multiple points to map and update source:
-  async updatePoints(features: GeoJSON.Feature[] | GeoJSON.Feature) {
+  async updatePoints(features: GeoJSON.Feature[] | GeoJSON.Feature): Promise<UpdatePointsResult> {
     if (!this.map) return null;
     
     const featureArray = Array.isArray(features) ? features : [features];
@@ -123,7 +124,15 @@ export class MapService {
       });
     }
 
-    return result;
+    return {
+      ...result,
+      valid: result.valid.map(feature => ({
+        ...feature,
+        type: "Feature",
+        geometry: feature.geometry!,
+        properties: feature.properties ?? {},
+      })) as GeoJSON.Feature[],
+    };
   }
 
   // Add single point to map and update source:

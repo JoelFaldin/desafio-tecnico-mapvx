@@ -12,6 +12,7 @@ import { DownloadIcon } from "../../icons/download-icon/download-icon";
 import { CheckIcon } from "../../icons/check-icon/check-icon";
 import { InfoIcon } from "../../icons/info-icon/info-icon";
 import { PinIcon } from "../../icons/pin-icon/pin-icon";
+import { InvalidDataInterface } from '../../core/interfaces/data.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -25,6 +26,7 @@ export class Navbar {
 
   valid: WritableSignal<number> = signal(0);
   invalid: WritableSignal<number> = signal(0);
+  invalidData: WritableSignal<InvalidDataInterface[] | null> = signal(null)
 
   points = this.mapService.getPoints()
 
@@ -45,6 +47,8 @@ export class Navbar {
         const target = e.target?.result as string;
         const geoJson = JSON.parse(target).features;
         const data = await this.mapService.updatePoints(geoJson);
+
+        this.invalidData.set(data.invalid as unknown as InvalidDataInterface[])
 
         if (data) {
           this.valid.set(data.valid.length)
