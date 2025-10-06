@@ -1,18 +1,10 @@
 import { RouterLink } from '@angular/router';
 import { Component, inject, signal, TemplateRef, WritableSignal } from '@angular/core';
 
-import { ModalService } from '../../core/services/modal-service';
-import { MapService } from '../../core/services/map-service';
-import { Button } from "../button/button";
-import { NotificationService } from '../../core/services/notification-service';
-import { DetailsCell } from "../details-cell/details-cell";
-import { SettingsIcon } from "../../icons/settings-icon/settings-icon";
-import { FileIcon } from "../../icons/file-icon/file-icon";
-import { DownloadIcon } from "../../icons/download-icon/download-icon";
-import { CheckIcon } from "../../icons/check-icon/check-icon";
-import { InfoIcon } from "../../icons/info-icon/info-icon";
-import { PinIcon } from "../../icons/pin-icon/pin-icon";
+import { MapService, ModalService, NotificationService } from '../../core/services';
 import { InvalidDataInterface } from '../../core/interfaces/data.interface';
+import { CheckIcon, DownloadIcon, FileIcon, InfoIcon, PinIcon, SettingsIcon } from '../../icons';
+import { Button, DetailsCell } from '..';
 
 @Component({
   selector: 'app-navbar',

@@ -1,4 +1,4 @@
-import { ElementRef, inject, Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
 
 import { PropertiesInterface } from '../interfaces/geojson.interface';

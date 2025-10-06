@@ -1,11 +1,8 @@
 import { Component, computed, inject, Input, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { Button } from "../shared/button/button";
-import { ButtonSecondary } from "../shared/button-secondary/button-secondary";
-import { ModalService } from '../core/services/modal-service';
-import { MapService } from '../core/services/map-service';
-import { ButtonWarning } from "../shared/button-warning/button-warning";
+import { MapService, ModalService } from '../../core/services';
+import { Button, ButtonSecondary, ButtonWarning } from '../../shared';
 
 @Component({
   selector: 'app-popup',

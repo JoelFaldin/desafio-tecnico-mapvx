@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild, ViewContainerRef } from '@ang
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 
-import { MapService } from '../../core/services/map-service';
+import { MapService } from '../../../core/services';
 import { Popup } from '../../popup/popup';
 
 @Component({
