@@ -1,59 +1,89 @@
-# DesafioTecnico
+# MapVX Desafío técnico
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+Proyecto simple para el desafío técnico de MapVX para la posición de **desarrollador frontend**.
 
-## Development server
+La aplicación consiste en el manejo de mapas: creación, edición y eliminación de puntos.
 
-To start a local development server, run:
+Construida con ![Angular](https://angular.dev/), ![Tailwind](https://tailwindcss.com/), ![MapLibre](https://maplibre.org/), ![npm](https://www.npmjs.com/) y ![Tabler icons](https://tabler.io/icons).
 
-```bash
-ng serve
-```
+## Iniciar la aplicación
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Para levantar el proyecto, aségurate de:
 
-## Code scaffolding
+* Tener una versión de ![Node](https://nodejs.org/en) válida (en mi caso, `v24.9.0`).
+* Contar con el ![cli de Angular](https://angular.dev/tools/cli) (instalar con `npm install -g @angular/cli`).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Clona el proyecto:
 
 ```bash
-ng generate --help
+git clone https://github.com/JoelFaldin/desafio-tecnico-mapvx.git
 ```
 
-## Building
-
-To build the project run:
+Instala las dependencias:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Inicia la aplicación:
 
 ```bash
-ng test
+ng serve -o
 ```
 
-## Running end-to-end tests
+## Arquitectura
 
-For end-to-end (e2e) testing, run:
+Este proyecto sigue una arquitectura por capas, organizada en diferentes directorios según su responsabilidad.
+La estructura ayuda a aislar la lógica de los componentes y mantener imports limpios.
+
+### Estructura de carpetas
 
 ```bash
-ng e2e
+src/app/
+ ├─ components/
+ ├─ core/
+ │   ├─ interfaces/
+ │   ├─ services/
+ │   └─ utils/
+ ├─ icons/
+ └─ shared/
+     ├─ buttons/
+     ├─ modal/
+     ├─ notification/
+     └─ navbar/
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+* components/: Componentes de la aplicación que representan secciones o características.
+* core/: Lógica principal de la aplicación:
+    * interfaces/: Interfaces de TypeScript para ayudar al tipado.
+    * services/: Manejan la inicialización e interacción con los mapas. Incluye un `index.ts` que re-importa cada archivo y así obtener imports limpios como:
 
-## Additional Resources
+    ```bash
+    import { CheckIcon, DownloadIcon, FileIcon, InfoIcon, PinIcon, SettingsIcon } from '../../icons';
+    ```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+    * utils/: Funciones de utilidad, en este caso, validación usando zod.
+* icons/: Diferentes componentes de Angular simples, obtenidos de ![Tabler icons](https://tabler.io/icons).
+* shared/: Componentes reutilizados en toda la aplicación. Permiten el paso de información por medio de props o ![_content projection_](https://angular.dev/guide/components/content-projection)
+
+### Posibles problemas
+
+1. El uso de `barrels` en forma de `index.ts` en los diferentes directorios ofrecen un lugar centralizado de donde exportar componentes, pero esto a costa de mantener un archivo extra (el mismo `index.ts`). Crear nuevos componentes va ligado a actualizar este archivo, arriesgando a posibles olvidos.
+
+2. La arquitectura por capas, a pesar de funcionar muy bien en proyectos pequeños, puede no ser ideal a medida que el proyecto crece. Es posible considerar el uso de una arquitectura por feature (features/map, features/options, etc).
+
+3. El uso de íconos usando Tabler Icons ofrece simplicidad y facilidad de uso, pero al consistir de un componente de Angular, se agregará una detección extra en comparación a SVGs normales o una librería de íconos específicamente creada para Angular.
+
+### Limitaciones conocidas y posibles problemas
+
+1. Se decidió no optar por librerías de notificaciones o de _modals_. En su lugar, se usó el Angular CDK. Eso añade complejidad al proyecto, al necesitar configuraciones extras (por ejemplo, los servicios `modal-service.ts` y `notification-service.ts`).
+
+2. Al utilizar modales con el Angular CDK, para pasar elementos a la modal se necesitó referenciar el elemento:
+
+`
+<a (click)="openModal(modalContent)" />
+...
+<ng-template #modalContent>
+`
+
+Esta característica hace dífcil separar los componentes. Por ejemplo, `components/navbar.ts` sufre de este problema en su template.
